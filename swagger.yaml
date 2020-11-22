@@ -1,0 +1,98 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Movie Servie
+  description: Movie Service System
+host: 'localhost:3000'
+basePath: /
+tags: 
+- name: Movie 
+  description: Movie System Management
+schemes: 
+- http
+- https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /movies:
+    get:
+      tags:
+      - Get movies by name
+      summary: Get movies by name
+      description: Get movies by name
+      parameters: 
+      - name: query
+        in: query
+        description: movie name 
+        required: true
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    post:
+      tags:
+      - post movie
+      summary: post multiple movies
+      description: Post multiple movies
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          type: array
+          description: movie details that need to saved
+          items:
+              $ref: '#/definitions/MovieData'
+      responses:
+        '200':
+          description: Movie Data
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /movie:
+    post:
+      tags:
+      - post movie
+      summary: post movie
+      description: Post movies
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: type details that need to saved
+          required: true
+          schema:
+            $ref: '#/definitions/MovieData'
+      responses:
+        '200':
+          description: Movie Data
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    x-swagger-router-controller: movieController
+definitions:
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  MovieData:
+    type: object
+    properties:
+      name:
+        type: string
+      director:
+        type: string
